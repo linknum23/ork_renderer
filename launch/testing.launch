@@ -2,6 +2,6 @@
 <!-- Testing 3d Models -->
 <launch>
   <param name="use_sim_time" value="true" />
-  <node name="rviz" pkg="rviz" type="rviz" args="-d /home/link/.rviz/mesh.rviz" />
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find object_recognition_renderer)/resources/mesh.rviz" />
   <node name="playback" pkg="rosbag" type="play" args="/home/link/objects/expo_eraser/test.bag --clock -r 0.1" />
 </launch>
