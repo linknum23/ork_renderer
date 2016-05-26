@@ -242,9 +242,13 @@ Renderer3d::render(cv::Mat &image_out, cv::Mat &depth_out, cv::Mat &mask_out, cv
     image_out = cv::Mat();
     mask_out = cv::Mat();
   } else {
-    depth_scale(rect).copyTo(depth_out);
-    image(rect).copyTo(image_out);
-    mask(rect).copyTo(mask_out);
+    //depth_scale(rect).copyTo(depth_out);
+    //image(rect).copyTo(image_out);
+    //mask(rect).copyTo(mask_out);
+    // we need full sized images for the bag!
+    depth_scale.copyTo(depth_out);
+    image.copyTo(image_out);
+    mask.copyTo(mask_out);
   }
 }
 
@@ -311,8 +315,11 @@ Renderer3d::renderDepthOnly(cv::Mat &depth_out, cv::Mat &mask_out, cv::Rect &rec
     depth_out = cv::Mat();
     mask_out = cv::Mat();
   } else {
-    depth_scale(rect).copyTo(depth_out);
-    mask(rect).copyTo(mask_out);
+    //depth_scale(rect).copyTo(depth_out);
+    //mask(rect).copyTo(mask_out);
+    // we need full sized images for the bag!
+    depth_scale.copyTo(depth_out);
+    mask.copyTo(mask_out);
   }
 }
 
@@ -334,6 +341,8 @@ Renderer3d::renderImageOnly(cv::Mat &image_out, const cv::Rect &rect) const
   if ((rect.width <=0) || (rect.height <= 0)) {
     image_out = cv::Mat();
   } else {
-    image(rect).copyTo(image_out);
+    //image(rect).copyTo(image_out);
+    // we need full sized images for the bag!
+    image.copyTo(image_out);
   }
 }

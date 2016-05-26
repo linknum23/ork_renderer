@@ -3,6 +3,17 @@ FIND_PACKAGE(OpenGL)
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(ASSIMP assimp_devel REQUIRED)
 
+# add ros requirements
+set(${PROJECT_NAME}_CATKIN_DEPS
+        roscpp
+        rosbag
+        geometry_msgs
+        sensor_msgs
+#        cv_bridge
+       )
+
+find_package(catkin REQUIRED COMPONENTS ${${PROJECT_NAME}_CATKIN_DEPS})
+
 # create the 2d rendering library
 add_library(${PROJECT_NAME}_2d renderer2d.cpp)
 target_link_libraries(${PROJECT_NAME}_2d ${OpenCV_LIBRARIES})
@@ -52,7 +63,7 @@ ADD_EXECUTABLE(view_generator main.cpp)
 
 SET_PROPERTY(TARGET view_generator PROPERTY DEBUG_POSTFIX ${ASSIMP_DEBUG_POSTFIX})
 
-TARGET_LINK_LIBRARIES(view_generator ${EXTRA_LIBRARIES})
+target_link_libraries(view_generator ${EXTRA_LIBRARIES} ${catkin_LIBRARIES})
 
 target_link_libraries(view_generator ${PROJECT_NAME}_3d)
 target_link_libraries(view_generator ${PROJECT_NAME}_2d)
