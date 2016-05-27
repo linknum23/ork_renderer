@@ -181,7 +181,7 @@ void render3d(std::string file_name, size_t width, size_t height) {
   cv::Mat image, depth, mask;
 
   ros::Time fakeTime = ros::TIME_MIN;
-  ros::Duration fakeCapturePeriod(0, 1000000000*0.2); // 5 FPS for visualization of bag. TODO: this needs to be bigger than synchronization period used in the bag reader if something like that exists
+  ros::Duration fakeCapturePeriod(0.2); // 5 FPS for visualization of bag. TODO: this needs to be bigger than synchronization period used in the bag reader if something like that exists
   //for (size_t i = 0; !renderer_iterator.isDone(); ++i, ++renderer_iterator) {
   for (size_t i = 0; i < 300; ++i, ++renderer_iterator) { // LJL: testing much faster...
     try {
@@ -207,20 +207,20 @@ void render3d(std::string file_name, size_t width, size_t height) {
       sensor_msgs::CameraInfoPtr depthInfoMsg = imageInfoMsg;
 
       // grab the rotation of the camera and convert to a quaternion, TODO: better way to convert basis vector?
-      double *x = renderer_iterator.R().val;
+      double *x = renderer_iterator.R_obj().val;
       tf::Matrix3x3 cbasis(
               x[0], x[1], x[2], x[3], x[4], x[5], x[6], x[7], x[8] // is this row wise or column-wise?
       );
       tf::Quaternion q;
-      cbasis.getRotation(q);
+      cbasis.inverse().getRotation(q);
 
       tf2_msgs::TFMessage tfMsg;
       geometry_msgs::TransformStamped transformStamped;
 
       // camera -> object
       // TODO: fix this transform! Can't find a permutation that works...
-      transformStamped.header.frame_id = DEFAULT_COLOR_OPTICAL_FRAME_ID;
-      transformStamped.child_frame_id = OBJECT_FRAME_ID;
+      transformStamped.header.frame_id = OBJECT_FRAME_ID;
+      transformStamped.child_frame_id = DEFAULT_COLOR_OPTICAL_FRAME_ID;
       transformStamped.header.seq = i;
       transformStamped.header.stamp = fakeTime;
       transformStamped.transform.translation.x =  renderer_iterator.T()[0];
@@ -232,7 +232,7 @@ void render3d(std::string file_name, size_t width, size_t height) {
       // TODO: generate pose stamped correctly
       geometry_msgs::PoseStamped poseMsg;
       poseMsg.header = commonHeader;
-      poseMsg.header.frame_id = DEFAULT_COLOR_OPTICAL_FRAME_ID;
+      poseMsg.header.frame_id = OBJECT_FRAME_ID;
       poseMsg.pose.position.x = transformStamped.transform.translation.x;
       poseMsg.pose.position.y = transformStamped.transform.translation.y;
       poseMsg.pose.position.z = transformStamped.transform.translation.z;
