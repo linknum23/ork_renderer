@@ -336,7 +336,7 @@ Renderer3d::renderImageOnly(cv::Mat &image_out, const cv::Rect &rect) const
 
   // Deal with the RGB image
   glReadBuffer(GL_COLOR_ATTACHMENT0);
-  glReadPixels(0, 0, renderer_->width_, renderer_->height_, GL_BGR, GL_UNSIGNED_BYTE, image.ptr());
+  glReadPixels(0, 0, renderer_->width_, renderer_->height_, GL_RGB, GL_UNSIGNED_BYTE, image.ptr());
 
   if ((rect.width <=0) || (rect.height <= 0)) {
     image_out = cv::Mat();

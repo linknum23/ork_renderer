@@ -44,13 +44,13 @@ RendererIterator::RendererIterator(Renderer *renderer, size_t n_points)
       n_points_(n_points),
       index_(0),
       renderer_(renderer),
-      angle_min_(-80),
-      angle_max_(80),
+      angle_min_(0),//angle_min_(-80),
+      angle_max_(0), //angle_max_(80),
       angle_step_(40),
       angle_(angle_min_),
-      radius_min_(0.4),
-      radius_max_(0.8),
-      radius_step_(0.2),
+      radius_min_(0.2),//radius_min_(0.2),
+      radius_max_(0.2),//radius_max_(0.35),
+      radius_step_(0.15),
       radius_(radius_min_)
 {
 }
