@@ -46,7 +46,7 @@ Model::~Model()
 void
 Model::LoadModel(const std::string & file_path)
 {
-  scene = aiImportFile(file_path.c_str(), aiProcessPreset_TargetRealtime_Quality | aiProcess_TransformUVCoords);
+  scene = aiImportFile(file_path.c_str(), aiProcessPreset_TargetRealtime_Quality);
   recursiveTextureLoad(scene, scene->mRootNode);
 }
 

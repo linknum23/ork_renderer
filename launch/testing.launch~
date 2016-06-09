@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<!-- Testing 3d Models -->
+<launch>
+  <param name="use_sim_time" value="true" />
+  <node name="rviz" pkg="rviz" type="rviz" args="-d /home/link/.rviz/mesh.rviz" />
+  <node name="playback" pkg="rosbag" type="play" args="/home/link/objects/expo_eraser/test.bag --clock" />
+</launch>
